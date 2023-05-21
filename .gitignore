@@ -1,0 +1,7 @@
+.DS_Store
+data/.DS_Store
+
+__pycache__
+
+# Do not remove, would expose the OpenAI API key
+config.json
