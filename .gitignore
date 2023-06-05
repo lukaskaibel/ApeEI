@@ -5,3 +5,6 @@ __pycache__
 
 # Do not remove, would expose the OpenAI API key
 config.json
+
+# Do not remove, would expose Google Cloud Project credentials
+credentials.json
