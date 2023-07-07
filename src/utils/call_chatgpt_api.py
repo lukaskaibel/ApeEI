@@ -17,7 +17,7 @@ def call_chatgpt_api(user_msg, system_msg="You are a helpful assistant.") -> str
                 {"role": "system", "content": system_msg},
                 {"role": "user", "content": user_msg},
             ],
-            max_tokens=80,
+            max_tokens=120,
         )
         logging.info(
             'ChatGPT: API call successful with response: "%s"',
