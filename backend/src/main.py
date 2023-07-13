@@ -3,7 +3,10 @@ from flask_cors import CORS
 from reflectionPT import analyse_reflection
 from wikiPT import call_wikiPT_api
 from eventPT import call_eventPT_api
+from utils.create_event import create_event
 import logging
+import json
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app, resources=r"/api/*")
@@ -26,7 +29,7 @@ def chat():
         title, url = call_wikiPT_api(message + response["content"])
 
         # Create Google Calendar event if there is an event in the message or response
-        event_link = call_eventPT_api(message + response["content"])
+        event = call_eventPT_api(message + response["content"])
 
         return (
             jsonify(
@@ -34,6 +37,7 @@ def chat():
                     "content": response["content"],
                     "role": response["role"],
                     "wikiEntry": {"title": title, "url": url},
+                    "event": event,
                 }
             ),
             200,
@@ -48,6 +52,20 @@ def chat():
             ),
             200,
         )
+
+
+@app.route("/api/create_event", methods=["POST"])
+def event():
+    data = request.get_json()
+    message = json.loads(data["message"])
+    logging.info(f"Create event:\n{message}")
+    create_event(
+        message["name"],
+        start_date=datetime.strptime(message["startDate"], "%Y-%m-%dT%H:%M:%S"),
+        end_date=datetime.strptime(message["endDate"], "%Y-%m-%dT%H:%M:%S"),
+        all_day=message["allDay"],
+    )
+    return ("Created", 200)
 
 
 if __name__ == "__main__":

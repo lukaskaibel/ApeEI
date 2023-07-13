@@ -22,8 +22,8 @@ def call_eventPT_api(text: str):
     response_text = call_chatgpt_api(user_msg=text, system_msg=eventPT_instruction)
     event = extract_json(response_text)
     if event:
-        logging.info("EventPT: Successfully created event: %s", event)
-        logging.info("EventPT: Adding event to calendar...")
+        logging.info("EventPT: Found event: %s", event)
+        return event
         return create_event(
             name=event["name"],
             start_date=datetime.strptime(event["startDate"], "%Y-%m-%dT%H:%M:%S"),

@@ -2,6 +2,7 @@ import React from "react";
 import { Message } from "../../interfaces/Message";
 import "./MessageView.css";
 import { isAnalysis } from "../../interfaces/Analysis";
+import { EventView } from "../EventView/EventView";
 
 interface MessageViewProps {
   message: Message;
@@ -20,7 +21,10 @@ export const MessageView: React.FC<MessageViewProps> = ({ message }) => {
         {content}
       </div>
       {isAnalysis(message) && (
-        <a href={message.wikiEntry.url}>{message.wikiEntry.title}</a>
+        <div>
+          <a href={message.wikiEntry.url}>{message.wikiEntry.title}</a>
+          <EventView event={message.event}></EventView>
+        </div>
       )}
       <div></div>
     </div>
