@@ -1,0 +1,19 @@
+.message {
+  padding: 30px;
+}
+
+.user-message {
+  /* Inherit from the base message class */
+  /* Add additional styles for user message */
+  text-align: right;
+  background-color: #336699;
+  color: #fff;
+}
+
+.bot-message {
+  /* Inherit from the base message class */
+  /* Add additional styles for bot message */
+  text-align: left;
+  background-color: #eeeeee;
+  color: #333;
+}

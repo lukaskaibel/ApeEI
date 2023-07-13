@@ -53,4 +53,5 @@ def create_event(
         event["location"] = location
 
     event = service.events().insert(calendarId="primary", body=event).execute()
-    logging.info(f'Event created: {event.get("htmlLink")}')
+    logging.info("Successfully added event to Google calendar!")
+    return event.get("htmlLink")

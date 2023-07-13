@@ -1,8 +1,8 @@
-import json
 import openai
 import requests
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from utils.config_utils import get_api_key
+import logging
 
 openai.api_key = get_api_key()
 
@@ -13,6 +13,7 @@ GPT_MODEL = "gpt-3.5-turbo-0613"
 def chat_completion_request(
     messages, functions=None, function_call=None, model=GPT_MODEL
 ):
+    logging.info("Making chat completion request to API...")
     headers = {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + openai.api_key,
@@ -28,8 +29,8 @@ def chat_completion_request(
             headers=headers,
             json=json_data,
         )
+        logging.info("Completion request successful!")
         return response
     except Exception as e:
-        print("Unable to generate ChatCompletion response")
-        print(f"Exception: {e}")
+        logging.error(f"Completion request failed with exception:\n{e}")
         return e

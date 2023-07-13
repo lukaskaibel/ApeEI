@@ -21,12 +21,15 @@ def call_eventPT_api(text: str):
     """
     response_text = call_chatgpt_api(user_msg=text, system_msg=eventPT_instruction)
     event = extract_json(response_text)
-    logging.info("EventPT: Successfully created event: %s", event)
-
-    logging.info("EventPT: Adding event to calendar...")
-    create_event(
-        name=event["name"],
-        start_date=datetime.strptime(event["startDate"], "%Y-%m-%dT%H:%M:%S"),
-        end_date=datetime.strptime(event["endDate"], "%Y-%m-%dT%H:%M:%S"),
-        all_day=event["allDay"],
-    )
+    if event:
+        logging.info("EventPT: Successfully created event: %s", event)
+        logging.info("EventPT: Adding event to calendar...")
+        return create_event(
+            name=event["name"],
+            start_date=datetime.strptime(event["startDate"], "%Y-%m-%dT%H:%M:%S"),
+            end_date=datetime.strptime(event["endDate"], "%Y-%m-%dT%H:%M:%S"),
+            all_day=event["allDay"],
+        )
+    else:
+        logging.info("EventPT: No event found in text")
+        return None
