@@ -1,12 +1,13 @@
 import React from "react";
 import { Event } from "../../interfaces/Event";
 import axios from "axios";
+import Button from "@mui/material/Button";
 
-interface EventViewProps {
+interface EventButtonProps {
   event: Event;
 }
 
-export const EventView: React.FC<EventViewProps> = ({ event }) => {
+export const EventButton: React.FC<EventButtonProps> = ({ event }) => {
   const startDate = new Date(event.startDate);
   const endDate = new Date(event.endDate);
 
@@ -49,10 +50,8 @@ export const EventView: React.FC<EventViewProps> = ({ event }) => {
   };
 
   return (
-    <button onClick={createEvent}>
-      <h3>{event.name}</h3>
-      <p>{formatDate(startDate)}</p>
-      <p>{renderEventTime()}</p>
-    </button>
+    <Button variant="contained" onClick={createEvent}>
+      Add to calendar
+    </Button>
   );
 };

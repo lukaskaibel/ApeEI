@@ -2,9 +2,10 @@ from utils.chat_completion_request import chat_completion_request
 from utils.print_chat_conversation import print_chat_conversation
 from utils.extract_json import extract_json
 import logging
+from typing import List, Dict, Any
 
 
-def analyse_reflection(reflection: str):
+def analyse_reflection(reflection: str, prevMessages: List[Dict[str, Any]] = []):
     logging.info("Analysing message...")
     messages = [
         {
@@ -32,15 +33,15 @@ def analyse_reflection(reflection: str):
                 ONLY respond with True or False!
             """,
         },
+        {
+            "role": "user",
+            "content": reflection,
+        },
     ]
     is_reflection_response = chat_completion_request(messages=messages)
     is_reflection = bool(
         is_reflection_response.json()["choices"][0]["message"]["content"].lower()
         == "true"
-    )
-    print(
-        "Is Reflection "
-        + is_reflection_response.json()["choices"][0]["message"]["content"]
     )
     logging.info(
         "ReflectionPT: "
@@ -52,18 +53,25 @@ def analyse_reflection(reflection: str):
                 You shouldn't list each criteria, instead provide a nicely flowing text as response.
                 Also focus on anaysing the reflection based on the criteria. Do not summarize the reflection.
     """
-    messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful chatbot that helps students to improve at uni."
-            + (reflection_instruction if is_reflection else ""),
-        },
-        {
-            "role": "user",
-            "content": reflection,
-        },
-    ]
+    messages = (
+        [
+            {
+                "role": "system",
+                "content": "You are a helpful chatbot that helps students to improve at uni."
+                + (reflection_instruction if is_reflection else ""),
+            }
+        ]
+        + prevMessages
+        + [
+            {
+                "role": "user",
+                "content": reflection,
+            },
+        ]
+    )
+    print(messages)
     chat_response = chat_completion_request(messages=messages)
+    print(chat_response.json())
     assistant_message = chat_response.json()["choices"][0]["message"]
     messages.append(assistant_message)
     criteria_json = None
