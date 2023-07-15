@@ -1,8 +1,14 @@
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
+"""
+This module provides functionality for creating events in Google Calendar.
+"""
+
+import json
 import logging
 from typing import Optional
-from datetime import timedelta
+from datetime import datetime, timedelta
+
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
 
 # If modifying these SCOPES, delete the file token.pickle.
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
@@ -13,13 +19,30 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s:%(levelname)s: %(mes
 
 def create_event(
     name: str,
-    start_date: str,
-    end_date: Optional[str] = None,
+    start_date: datetime,
+    end_date: Optional[datetime] = None,
     location: Optional[str] = None,
     all_day: bool = False,
-):
-    creds = None
+) -> str:
+    """
+    Creates an event in Google Calendar.
 
+    Args:
+        name (str): The name of the event.
+        start_date (datetime): The start date and time of the event.
+        end_date (Optional[datetime]): The end date and time of the event. If the event lasts all day and
+            `end_date` is not provided, it defaults to the end of the start date. If the event does not last
+            all day and `end_date` is not provided, it defaults to one hour after the start time.
+        location (Optional[str]): The location of the event.
+        all_day (bool): Indicates whether the event lasts all day. Defaults to False.
+
+    Returns:
+        The URL of the created event.
+
+    Raises:
+        google.auth.exceptions.RefreshError: If the authentication fails.
+        googleapiclient.errors.HttpError: If the request to the Google Calendar API fails.
+    """
     flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
     creds = flow.run_local_server(port=0)
 

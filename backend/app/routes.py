@@ -1,21 +1,14 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from reflectionPT import analyse_reflection
-from wikiPT import call_wikiPT_api
-from eventPT import call_eventPT_api
-from utils.create_event import create_event
+from flask import request, jsonify
+from app import app
+from .utils.create_event import create_event
+from .features.assistant_pt import assistant_pt
+from .features.wiki_pt import wiki_pt
+from .features.event_pt import event_pt
 import logging
 import json
 from datetime import datetime
-from typing import Dict, List, Any
 
 MAX_MESSAGES_STORED = 8
-
-app = Flask(__name__)
-CORS(app, resources=r"/api/*")
-
-logging.getLogger().setLevel(logging.INFO)
-
 prev_messages = []
 
 
@@ -24,9 +17,7 @@ def chat():
     # Analysing Reflection
     message = request.get_json()["message"]
     logging.info(f"Received user message:\n{message}")
-    response, is_analysis, criteria = analyse_reflection(
-        message, prevMessages=prev_messages
-    )
+    response, is_analysis, criteria = assistant_pt(message, prevMessages=prev_messages)
     logging.info(f"Generated assistant response:\n{response}\n{criteria}")
 
     add_message_to_prev_messages(message=message, role="user")
@@ -36,10 +27,10 @@ def chat():
         # Calling WikiPT
         logging.info("Calling WikiPT...")
         print(response)
-        title, url = call_wikiPT_api(message + response["content"])
+        title, url = wiki_pt(message + response["content"])
 
         # Create Google Calendar event if there is an event in the message or response
-        event = call_eventPT_api(message + response["content"])
+        event = event_pt(message + response["content"])
 
         return (
             jsonify(
@@ -83,7 +74,3 @@ def add_message_to_prev_messages(message: str, role: str):
     if len(prev_messages) > MAX_MESSAGES_STORED:
         prev_messages.pop(0)
     prev_messages += [{"content": message, "role": role}]
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
