@@ -26,7 +26,6 @@ def chat():
     if is_analysis:
         # Calling WikiPT
         logging.info("Calling WikiPT...")
-        print(response)
         title, url = wiki_pt(message + response["content"])
 
         # Create Google Calendar event if there is an event in the message or response

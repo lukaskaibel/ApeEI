@@ -9,6 +9,10 @@ Welcome to ApeEI, an innovative full-stack application designed to enhance the u
 
 At its core, ApeEI is a smart chatbot capable of delivering thoughtful responses and engaging students in conversation, promoting a deeper understanding of their subjects. It not only assists by answering queries but also brings a world of information to your fingertips by suggesting useful Wikipedia articles that provide further insight. Moreover, ApeEI identifies potential events from your chats, offering a convenient option to create corresponding Google Calendar entries - ensuring you never miss an important date.
 
+## About the Project
+
+This project, ApeEI, is a result of a university assignment undertaken at the [Freie Universität Berlin](https://www.fu-berlin.de/).
+
 ## Project Structure
 
 - **/backend**: Houses the Flask server, the backbone of our chatbot. It powers the assistant features, enables event detection, and facilitates Wikipedia search functionality.
@@ -16,7 +20,13 @@ At its core, ApeEI is a smart chatbot capable of delivering thoughtful responses
 
 ## Getting Started
 
-The journey towards an enhanced learning experience begins here. Detailed instructions for installing and running the application can be found within the README files located in the 'frontend' and 'backend' directories.
+Detailed instructions for installing and running the application can be found within the README files located in the 'frontend' and 'backend' directories.
+
+## Architecture
+
+Below is a visual representation of the architecture deployed in ApiEI:
+
+![ApeEI Architecture](images/architecture.png)
 
 ## License
 

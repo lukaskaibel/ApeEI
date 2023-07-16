@@ -36,25 +36,8 @@ def assistant_pt(
         {
             "role": "system",
             "content": """
-                Given a user's text input, classify it as either a 'reflection' or a 'normal message'. A reflection is a more detailed, introspective thought or contemplation that provides in-depth insights into the user's feelings, experiences, or thoughts. Normal messages are shorter, direct, and less introspective, such as simple greetings, questions, or direct instructions.
-
-                Here are some examples for each category:
-
-                1. 'Today I've been thinking about my work habits, and I realized that I'm far more productive in the mornings. I think I'll start shifting my schedule to start earlier and see if that helps my productivity.'
-                True
-
-                2. 'I'm feeling a bit overwhelmed by the new project. There's a lot to do and I'm unsure about where to begin.'
-                True
-
-                3. 'Good morning, how are you today?'
-                False
-
-                4. 'Could you help me understand how to solve this math problem?'
-                False
-
-                5. 'Last week we were talking about Python in class. I didn't really understand the topic because I never programmed before. I think want to improve on it in the future though!'
-                True
-
+                You are a classifier. 
+                For each message, you decide if it is a reflection or not.
                 ONLY respond with True or False!
             """,
         },
@@ -74,9 +57,9 @@ def assistant_pt(
     )
 
     reflection_instruction = """
-        Provide peronal feedback to the students reflection based on how well the student included the criteria: Emotion, Analysis, Description, Conclusion, Evaluation, Future Plan. 
-                You shouldn't list each criteria, instead provide a nicely flowing text as response.
-                Also focus on anaysing the reflection based on the criteria. Do not summarize the reflection.
+        Provide personal feedback to the student's reflection based on how well the student included the criteria: Emotion, Analysis, Description, Conclusion, Evaluation, Future Plan. 
+            Don't list each criteria, but provide a nicely flowing text as response. 
+            Keep the response short by only briefly talking about what the user did well and focus more on how he can improve.
     """
     messages = (
         [

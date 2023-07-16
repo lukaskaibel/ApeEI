@@ -5,6 +5,7 @@ configuration file.
 
 import json
 from typing import Optional
+import logging
 
 
 def get_api_key(config_file: str = "config.json") -> Optional[str]:
@@ -27,11 +28,11 @@ def get_api_key(config_file: str = "config.json") -> Optional[str]:
             config = json.load(file)
             return config.get("openai_key")
     except FileNotFoundError:
-        print(f"Configuration file '{config_file}' not found.")
+        logging.error(f"Configuration file '{config_file}' not found.")
         raise
     except json.JSONDecodeError:
-        print(f"Configuration file '{config_file}' is not valid JSON.")
+        logging.error(f"Configuration file '{config_file}' is not valid JSON.")
         raise
     except KeyError:
-        print(f"'openai_key' not found in configuration file '{config_file}'.")
+        logging.error(f"'openai_key' not found in configuration file '{config_file}'.")
         raise
