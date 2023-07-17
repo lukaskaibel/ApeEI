@@ -32,6 +32,10 @@ def event_pt(text: str) -> Optional[Dict[str, Any]]:
         When you find such an entry return a JSON object like this {{ name: <string>, startDate: <%Y-%m-%%dT%H:%M:%S>, endDate: <%Y-%m-%%dT%H:%M:%S>, allDay: <bool> }}. 
         If there is no specific time mentioned, assume that the event is all day and set endDate = startDate. 
         If there is a start date, but no end date, assume that the event lasts an hour.
+        Examples of text with events might be:
+        1. Im excited about the concert on Saturday. 
+        2. The flight leaves tomorrow afternoon.
+        3. There is only 2 days left until christmas.
         Make sure to respond with only the JSON obejct.
     """
 
