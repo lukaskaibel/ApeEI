@@ -16,12 +16,12 @@ def assistant_pt(
     message: str, prevMessages: List[Dict[str, Any]] = []
 ) -> Tuple[Dict[str, Any], bool, Optional[Dict[str, Any]]]:
     """
-    Analyses a message as either a 'reflection' or a 'normal message', and returns
+    Analyses a message as either a reflection or a normal message, and returns
     a response from an assistant, a boolean indicating whether the message is a
     reflection, and a JSON object with numeric evaluations if the message is a reflection.
 
     Args:
-        reflection (str): The user's message to analyse.
+        message (str): The user's message to analyse.
         prevMessages (List[Dict[str, Any]]): A list of previous messages, if any.
 
     Returns:
